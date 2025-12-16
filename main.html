@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuciones Maropi - Frutas y Verduras Frescas</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FF9800;
+            --dark-color: #2E7D32;
+            --light-bg: #F1F8E9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(46, 125, 50, 0.95)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%234CAF50" width="1200" height="600"/><circle fill="%2366BB6A" cx="200" cy="150" r="80"/><circle fill="%2381C784" cx="800" cy="400" r="120"/><circle fill="%23A5D6A7" cx="1000" cy="200" r="60"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .cta-button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.4);
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            background-color: #F57C00;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 152, 0, 0.6);
+            color: white;
+        }
+
+        .cart-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary-color);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .problema-solucion {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .antes-despues {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .antes, .despues {
+            flex: 1;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .antes {
+            background: linear-gradient(135deg, #FFEBEE, #FFCDD2);
+            border: 3px solid #EF5350;
+        }
+
+        .despues {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border: 3px solid var(--primary-color);
+        }
+
+        .antes:hover, .despues:hover {
+            transform: scale(1.05);
+        }
+
+        .caracteristicas {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 15px;
+            transition: all 0.3s;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.3);
+        }
+
+        .feature-card i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .productos-section {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .producto-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+            background: white;
+        }
+
+        .producto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .producto-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .precio {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 15px 0;
+        }
+
+        .btn-agregar {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .btn-agregar:hover {
+            background-color: var(--dark-color);
+            transform: scale(1.05);
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-modal.active {
+            display: flex;
+        }
+
+        .cart-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .cart-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .qty-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .yape-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #722F8B, #4A1B6B);
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .yape-logo {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .testimonios {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 0 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .pricing {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .pricing-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s;
+            height: 100%;
+            background: white;
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--secondary-color);
+            box-shadow: 0 15px 40px rgba(255, 152, 0, 0.3);
+            transform: scale(1.05);
+        }
+
+        .contacto {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .antes-despues {
+                flex-direction: column;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .cart-content {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Icono del Carrito -->
+    <div class="cart-icon" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart fa-2x"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+    </div>
+
+    <!-- Modal del Carrito -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <span class="cart-close" onclick="toggleCart()">&times;</span>
+            <h2 class="text-center mb-4"><i class="fas fa-shopping-cart me-2"></i>Mi Carrito</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <h3>Total: S/ <span id="cartTotal">0.00</span></h3>
+            </div>
+            <div class="yape-section">
+                <div class="yape-logo">💜</div>
+                <h4>Pagar con Yape</h4>
+                <p class="mb-3">Número Yape: <strong>999999999</strong></p>
+                <p class="mb-3">Monto a pagar: <strong>S/ <span id="yapeTotal">0.00</span></strong></p>
+                <a href="#" id="whatsappBtn" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp fa-lg"></i>
+                    Confirmar Pedido por WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Distribuciones Maropi</h1>
+            <p>Más de 20 años llevando frescura y calidad a tu mesa</p>
+            <a href="#productos" class="cta-button">¡Ver Productos!</a>
+            <a href="#contacto" class="cta-button">Contáctanos</a>
+        </div>
+    </section>
+
+    <!-- Problema - Solución -->
+    <section class="problema-solucion">
+        <div class="container">
+            <h2 class="text-center mb-4" style="color: var(--dark-color); font-size: 2.5rem;">Tu Tranquilidad es Nuestra Prioridad</h2>
+            <div class="antes-despues">
+                <div class="antes">
+                    <i class="fas fa-frown fa-4x mb-3" style="color: #EF5350;"></i>
+                    <h3>Antes</h3>
+                    <p><strong>😟 Preocupación constante</strong></p>
+                    <p>Productos de baja calidad, entregas impredecibles, precios inconsistentes y estrés por no encontrar un proveedor confiable</p>
+                </div>
+                <div class="despues">
+                    <i class="fas fa-smile-beam fa-4x mb-3" style="color: var(--primary-color);"></i>
+                    <h3>Después</h3>
+                    <p><strong>😊 Total confianza</strong></p>
+                    <p>Productos frescos garantizados, entregas puntuales, precios justos y la tranquilidad de trabajar con expertos de más de 20 años</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Características -->
+    <section class="caracteristicas">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--dark-color); font-size: 2.5rem;">¿Por Qué Elegir Maropi?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Calidad Suprema</h4>
+                        <p>Seleccionamos cuidadosamente cada fruta y verdura para garantizar el máximo frescor y sabor.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-truck-fast"></i>
+                        <h4>Entrega Rápida</h4>
+                        <p>Sistema logístico eficiente que garantiza entregas puntuales.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-award"></i>
+                        <h4>+20 Años de Experiencia</h4>
+                        <p>Dos décadas de excelencia en el mercado nos respaldan.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-hand-holding-dollar"></i>
+                        <h4>Precios Competitivos</h4>
+                        <p>Venta al por mayor y menor con los mejores precios del mercado.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-store"></i>
+                        <h4>Ubicación Estratégica</h4>
+                        <p>En el corazón del Mercado El Palomar, puestos 85-86.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Servicio Personalizado</h4>
+                        <p>Atención dedicada para negocios y familias.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos -->
+    <section id="productos" class="productos-section">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--dark-color); font-size: 2.5rem;">Nuestros Productos Frescos</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🍎</div>
+                        <h5>Manzanas Premium</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 8.00</div>
+                        <button class="btn-agregar" onclick="addToCart('Manzanas Premium', 8.00)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🍌</div>
+                        <h5>Plátanos Orgánicos</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 5.00</div>
+                        <button class="btn-agregar" onclick="addToCart('Plátanos Orgánicos', 5.00)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🍊</div>
+                        <h5>Naranjas Jugosas</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 6.50</div>
+                        <button class="btn-agregar" onclick="addToCart('Naranjas Jugosas', 6.50)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🍇</div>
+                        <h5>Uvas Frescas</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 12.00</div>
+                        <button class="btn-agregar" onclick="addToCart('Uvas Frescas', 12.00)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🥬</div>
+                        <h5>Lechugas Verdes</h5>
+                        <p class="text-muted">Unidad</p>
+                        <div class="precio">S/ 3.50</div>
+                        <button class="btn-agregar" onclick="addToCart('Lechugas Verdes', 3.50)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🥕</div>
+                        <h5>Zanahorias</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 4.00</div>
+                        <button class="btn-agregar" onclick="addToCart('Zanahorias', 4.00)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🍅</div>
+                        <h5>Tomates Frescos</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 5.50</div>
+                        <button class="btn-agregar" onclick="addToCart('Tomates Frescos', 5.50)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="producto-card">
+                        <div class="producto-img">🥔</div>
+                        <h5>Papas Seleccionadas</h5>
+                        <p class="text-muted">Kg</p>
+                        <div class="precio">S/ 3.00</div>
+                        <button class="btn-agregar" onclick="addToCart('Papas Seleccionadas', 3.00)">
+                            <i class="fas fa-cart-plus me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accordion de Productos -->
+    <section class="py-5" style="background-color: var(--light-bg);">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--dark-color); font-size: 2.5rem;">Categorías de Productos</h2>
+            <div class="accordion" id="productosAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#frutas">
+                            <i class="fas fa-apple-alt me-3" style="color: var(--primary-color);"></i>
+                            <strong>Frutas Frescas</strong>
+                        </button>
+                    </h2>
+                    <div id="frutas" class="accordion-collapse collapse show" data-bs-parent="#productosAccordion">
+                        <div class="accordion-body">
+                            <p>Amplia variedad de frutas de temporada y todo el año: manzanas, naranjas, plátanos, uvas, piñas, papayas, mangos, fresas, melones, sandías y mucho más.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#verduras">
+                            <i class="fas fa-carrot me-3" style="color: var(--primary-color);"></i>
+                            <strong>Verduras y Hortalizas</strong>
+                        </button>
+                    </h2>
+                    <div id="verduras" class="accordion-collapse collapse" data-bs-parent="#productosAccordion">
+                        <div class="accordion-body">
+                            <p>Selección completa de verduras: tomates, lechugas, zanahorias, papas, cebollas, ajíes, brócoli, coliflor, espinacas y más.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#organicos">
+                            <i class="fas fa-seedling me-3" style="color: var(--primary-color);"></i>
+                            <strong>Productos Orgánicos</strong>
+                        </button>
+                    </h2>
+                    <div id="organicos" class="accordion-collapse collapse" data-bs-parent="#productosAccordion">
+                        <div class="accordion-body">
+                            <p>Línea especial de productos orgánicos certificados, cultivados sin pesticidas ni químicos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonios">
+        <div class="container">
+            <h2 class="text-center mb-5" style="font-size: 2.5rem;">Lo Que Dicen Nuestros Clientes</h2>
+            <div id="testimoniosCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="testimonial-card">
+                            <div class="stars" style="color: var(--secondary-color);">★★★★★</div>
+                            <p>"Excelente servicio, siempre puntuales y los productos son de primera calidad."</p>
+                            <strong>- María González, Chef</strong>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="testimonial-card">
+                            <div class="stars" style="color: var(--secondary-color);">★★★★★</div>
+                            <p>"Los mejores precios del mercado sin sacrificar calidad."</p>
+                            <strong>- Carlos Mendoza, Empresario</strong>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="testimonial-card">
+                            <div class="stars" style="color: var(--secondary-color);">★★★★★</div>
+                            <p>"Compro para mi familia cada semana. La frescura es incomparable."</p>
+                            <strong>- Ana Rodríguez, Cliente</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--dark-color); font-size: 2.5rem;">Planes de Compra</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3>Básico</h3>
+                        <div class="precio">S/ 50+</div>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Compra al por menor</li>
+                            <li><i class="fas fa-check text-success"></i> Productos frescos</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card featured">
+                        <div class="badge bg-warning text-dark mb-3">MÁS POPULAR</div>
+                        <h3>Pro</h3>
+                        <div class="precio">S/ 200+</div>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Compra al por mayor</li>
+                            <li><i class="fas fa-check text-success"></i> Entrega a domicilio</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <h3>VIP</h3>
+                        <div class="precio">S/ 500+</div>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-check text-success"></i> Volumen corporativo</li>
+                            <li><i class="fas fa-check text-success"></i> Asesor dedicado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="contacto">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--dark-color); font-size: 2.5rem;">Contáctanos</h2>
+            <div class="row justify-content-center">    
+                <div class="col-md-8">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                    </form>
+                </div>  
