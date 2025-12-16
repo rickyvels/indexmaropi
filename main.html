@@ -209,6 +209,7 @@
             padding: 10px 25px;
             border-radius: 25px;
             transition: all 0.3s;
+            cursor: pointer;
         }
 
         .btn-agregar:hover {
@@ -369,6 +370,7 @@
             background-color: var(--dark-color);
             color: white;
             padding: 40px 0 20px;
+            text-align: center;
         }
 
         .social-links a {
@@ -751,4 +753,104 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                     </form>
-                </div>  
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3>Distribuciones Maropi</h3>
+            <p>Mercado El Palomar - Puestos 85-86</p>
+            <div class="social-links">
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem;">&copy; 2025 Distribuciones Maropi. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let carrito = [];
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('active');
+        }
+
+        function addToCart(nombre, precio) {
+            const existente = carrito.find(item => item.nombre === nombre);
+            
+            if (existente) {
+                existente.cantidad++;
+            } else {
+                carrito.push({ nombre, precio, cantidad: 1 });
+            }
+            
+            actualizarCarrito();
+        }
+
+        function removeFromCart(nombre) {
+            carrito = carrito.filter(item => item.nombre !== nombre);
+            actualizarCarrito();
+        }
+
+        function cambiarCantidad(nombre, cantidad) {
+            const item = carrito.find(item => item.nombre === nombre);
+            if (item) {
+                item.cantidad += cantidad;
+                if (item.cantidad <= 0) {
+                    removeFromCart(nombre);
+                } else {
+                    actualizarCarrito();
+                }
+            }
+        }
+
+        function actualizarCarrito() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            const yapeTotal = document.getElementById('yapeTotal');
+
+            cartItems.innerHTML = '';
+            let total = 0;
+            let cantidad = 0;
+
+            carrito.forEach(item => {
+                const subtotal = item.precio * item.cantidad;
+                total += subtotal;
+                cantidad += item.cantidad;
+
+                const itemHTML = `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h5>${item.nombre}</h5>
+                            <p>S/ ${item.precio.toFixed(2)} x ${item.cantidad}</p>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="qty-btn" onclick="cambiarCantidad('${item.nombre}', -1)">-</button>
+                            <span>${item.cantidad}</span>
+                            <button class="qty-btn" onclick="cambiarCantidad('${item.nombre}', 1)">+</button>
+                            <button class="qty-btn" style="background: #dc3545;" onclick="removeFromCart('${item.nombre}')">🗑</button>
+                        </div>
+                    </div>
+                `;
+                cartItems.innerHTML += itemHTML;
+            });
+
+            cartCount.textContent = cantidad;
+            cartTotal.textContent = total.toFixed(2);
+            yapeTotal.textContent = total.toFixed(2);
+
+            // Actualizar enlace de WhatsApp
+            const mensaje = `Deseo hacer un pedido: ${carrito.map(item => `${item.cantidad}x ${item.nombre}`).join(', ')}. Total: S/ ${total.toFixed(2)}`;
+            const whatsappBtn = document.getElementById('whatsappBtn');
+            whatsappBtn.href = `https://wa.me/999999999?text=${encodeURIComponent(mensaje)}`;
+        }
+    </script>
+</body>
+</html>
